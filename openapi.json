@@ -1,0 +1,336 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SMTP-DKIM Plugin API",
+    "description": "WordPress SMTP + DKIM email authentication plugin. Fixes emails going to spam by routing through a professional SMTP server and signing every outgoing email with DKIM RSA-2048 cryptography. SMTP is free forever. DKIM signing requires a license. Includes real-time DNS diagnostic (SPF, DKIM, DMARC) via Cloudflare DoH.\n\nCompatible with: cPanel, OVH, Hostinger, SiteGround, GoDaddy, Infomaniak, Gmail, Outlook, Namecheap, BlueHost, DreamHost, 1&1 IONOS, WP Engine, Kinsta, Cloudways.\nWorks with all wp_mail() callers: WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress, LearnDash.\n\nSecurity: SMTP password and DKIM private key are AES-256-CBC encrypted in the WordPress database. Nothing sensitive is transmitted to smtp-dkim.com.",
+    "version": "2.3.9",
+    "contact": {
+      "name": "SMTP-DKIM Support",
+      "url": "https://smtp-dkim.com",
+      "email": "support@smtp-dkim.com"
+    },
+    "license": {
+      "name": "GPL-2.0+",
+      "url": "https://www.gnu.org/licenses/gpl-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://smtp-dkim.com/wp-json/sdlm/v1",
+      "description": "License validation and plugin update server"
+    }
+  ],
+  "tags": [
+    { "name": "license", "description": "License activation, validation and deactivation" },
+    { "name": "trial", "description": "Free 24-hour DKIM trial" },
+    { "name": "updates", "description": "WordPress plugin auto-update endpoint" },
+    { "name": "security", "description": "RSA public key for license signature verification" }
+  ],
+  "paths": {
+    "/validate": {
+      "post": {
+        "tags": ["license"],
+        "summary": "Validate, activate or deactivate a DKIM license",
+        "description": "Main license validation endpoint. Called by the SMTP-DKIM WordPress plugin every 2 hours via WP-Cron. On activation, returns an RSA-2048 signature (valid 24h) that cryptographically enables DKIM signing. Only the license key and domain name are transmitted — no passwords or private keys.",
+        "operationId": "validateLicense",
+        "security": [{ "HMACAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["license_key", "domain", "action"],
+                "properties": {
+                  "license_key": {
+                    "type": "string",
+                    "pattern": "^SDKM-[A-Z2-9]{5}-[A-Z2-9]{5}-[A-Z2-9]{5}-[A-Z2-9]{5}$",
+                    "description": "License key — format SDKM-XXXXX-XXXXX-XXXXX-XXXXX",
+                    "example": "SDKM-AB3DE-FGH2J-KLMNP-QRSTU"
+                  },
+                  "domain": {
+                    "type": "string",
+                    "description": "WordPress site domain without www",
+                    "example": "example.com"
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": ["activate", "deactivate", "check"],
+                    "description": "activate: bind license to domain | deactivate: release domain | check: verify current status"
+                  },
+                  "plugin": {
+                    "type": "string",
+                    "default": "smtp-dkim"
+                  },
+                  "version": {
+                    "type": "string",
+                    "description": "Plugin version for telemetry",
+                    "example": "2.3.9"
+                  },
+                  "timestamp": {
+                    "type": "integer",
+                    "description": "Unix timestamp for HMAC anti-replay (±5 min tolerance)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "License response (valid or invalid — always HTTP 200, check `valid` field)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": {
+                      "type": "boolean",
+                      "description": "true = license is active and DKIM signing can proceed"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": ["active", "inactive", "expired", "revoked", "invalid", "no_domain", "domain_mismatch", "max_reached", "rate_limited"]
+                    },
+                    "message": { "type": "string" },
+                    "expires_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "License expiry in UTC (null for Lifetime plans)"
+                    },
+                    "plan_type": {
+                      "type": "string",
+                      "enum": ["single", "multi3", "multi5", "unlimited", "lifetime", "trial"]
+                    },
+                    "customer_email": { "type": "string" },
+                    "customer_name": { "type": "string" },
+                    "domain": { "type": "string", "description": "Domain stored in license record" },
+                    "activation_sig": {
+                      "type": "string",
+                      "description": "RSA-2048 signature (base64) enabling DKIM — valid 24 hours"
+                    },
+                    "activation_expiry": {
+                      "type": "integer",
+                      "description": "Unix timestamp when activation_sig expires"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trial-question": {
+      "get": {
+        "tags": ["trial"],
+        "summary": "Get a math security challenge for the free trial form",
+        "description": "Returns a simple math question (addition or multiplication) and a server-side token. The token is valid 10 minutes and must be submitted with the trial request to prove it was a human interaction.",
+        "operationId": "getTrialQuestion",
+        "responses": {
+          "200": {
+            "description": "Math challenge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string", "description": "Server-side token (valid 10 minutes)" },
+                    "question": { "type": "string", "example": "4 × 7 =" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trial": {
+      "post": {
+        "tags": ["trial"],
+        "summary": "Request a free 24-hour DKIM trial license",
+        "description": "Creates a free 24-hour DKIM trial license. No credit card required. Anti-bot protection via honeypot + math captcha. Rate limited to 5 attempts/hour/IP. One trial per domain and per email address — enforced server-side.",
+        "operationId": "createTrial",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "domain", "math_token", "math_answer"],
+                "properties": {
+                  "name": { "type": "string", "description": "User full name" },
+                  "email": { "type": "string", "format": "email" },
+                  "domain": {
+                    "type": "string",
+                    "description": "WordPress domain — no http:// or www (e.g., example.com)"
+                  },
+                  "math_token": { "type": "string", "description": "Token from /trial-question" },
+                  "math_answer": { "type": "integer", "description": "Answer to the math challenge" },
+                  "sdkm_hp": {
+                    "type": "string",
+                    "description": "Honeypot field — must be empty"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trial result (always HTTP 200 — check `success` field)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "license_key": {
+                      "type": "string",
+                      "description": "Trial license key (only when success=true)"
+                    },
+                    "expires_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Expiry — 24 hours from creation"
+                    },
+                    "domain": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plugin-info": {
+      "get": {
+        "tags": ["updates"],
+        "summary": "Get plugin metadata for WordPress auto-updater",
+        "description": "Returns plugin version, download URL, changelog, banners and icons for the WordPress 'Update Plugins' transient. Used by the built-in update checker in smtp-dkim.php.",
+        "operationId": "getPluginInfo",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["smtp-dkim"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plugin metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string", "example": "SMTP DKIM" },
+                    "slug": { "type": "string", "example": "smtp-dkim" },
+                    "version": { "type": "string", "example": "2.3.9" },
+                    "download_link": { "type": "string", "format": "uri" },
+                    "requires": { "type": "string", "example": "5.8" },
+                    "tested": { "type": "string", "example": "6.9" },
+                    "requires_php": { "type": "string", "example": "8.0" },
+                    "last_updated": { "type": "string", "format": "date" },
+                    "banners": {
+                      "type": "object",
+                      "properties": {
+                        "low": { "type": "string", "format": "uri" },
+                        "high": { "type": "string", "format": "uri" }
+                      }
+                    },
+                    "sections": {
+                      "type": "object",
+                      "properties": {
+                        "description": { "type": "string" },
+                        "changelog": { "type": "string" },
+                        "installation": { "type": "string" },
+                        "faq": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public-key": {
+      "get": {
+        "tags": ["security"],
+        "summary": "Get the RSA public key for license signature verification",
+        "description": "Returns the RSA-2048 public key used by WordPress plugins to verify the activation_sig returned by /validate. Clients cache this key for 24 hours and clear the cache if rotated_at changes.",
+        "operationId": "getPublicKey",
+        "responses": {
+          "200": {
+            "description": "RSA public key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "public_key": { "type": "string", "description": "PEM-encoded RSA-2048 public key" },
+                    "rotated_at": { "type": "string", "description": "Timestamp of last key rotation — clients invalidate cache if this changes" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "tags": ["license"],
+        "summary": "Submit plugin deactivation feedback",
+        "description": "Receives anonymous feedback when a user deactivates the plugin. Stores reason, comment, site info and license status for product improvement.",
+        "operationId": "submitFeedback",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": { "type": "string" },
+                  "reason_label": { "type": "string" },
+                  "comment": { "type": "string" },
+                  "site_url": { "type": "string" },
+                  "plugin_version": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Feedback received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "received": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "HMACAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-WPSWD-HMAC",
+        "description": "HMAC-SHA256 of request body + timestamp, keyed with the license_key. Companion header X-WPSWD-Time carries the Unix timestamp. Replay window: ±5 minutes."
+      }
+    }
+  }
+}
