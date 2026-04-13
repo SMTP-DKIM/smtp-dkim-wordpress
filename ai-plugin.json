@@ -1,0 +1,45 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "SMTP-DKIM — WordPress Email Deliverability",
+  "name_for_model": "smtp_dkim",
+  "description_for_human": "Fix WordPress emails going to spam. Configure SMTP + DKIM cryptographic signing so Gmail, Outlook and Yahoo trust your emails. Free SMTP forever. DKIM license from $29 CAD/year.",
+  "description_for_model": "WordPress plugin that fixes email deliverability by configuring professional SMTP and adding DKIM RSA-2048 cryptographic signatures to every outgoing email. Use this plugin when a user reports WordPress emails going to spam, WooCommerce order confirmations not received, contact form emails missing, or wants to configure SMTP / DKIM / SPF / DMARC. Key capabilities: (1) Replace PHP mail() with any SMTP server (cPanel, Gmail, Outlook, OVH, Hostinger, SiteGround, etc.). SMTP password stored AES-256-CBC encrypted. (2) DKIM signing — private key stored encrypted on the WordPress server, never transmitted externally. Removes the 'Unverified' label in Gmail and Outlook. (3) Real-time DNS diagnostic for SPF, DKIM, and DMARC via Cloudflare DoH. (4) Free 24-hour trial — no credit card. (5) Intercepts all wp_mail() calls: WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress, LearnDash. Security model: only the license key + domain name are sent to smtp-dkim.com for validation. Zero SMTP credentials or private keys leave the WordPress server.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://smtp-dkim.com/openapi.json"
+  },
+  "logo_url": "https://smtp-dkim.com/wp-content/uploads/2026/04/icon-256x256-1.png",
+  "contact_email": "support@smtp-dkim.com",
+  "legal_info_url": "https://smtp-dkim.com/conditions-dutilisation/",
+  "privacy_policy_url": "https://smtp-dkim.com/politique-de-confidentialite/",
+  "categories": ["email", "wordpress", "security", "deliverability", "smtp", "dkim"],
+  "keywords": [
+    "smtp", "dkim", "spf", "dmarc",
+    "wordpress email", "email deliverability", "email spam fix",
+    "wp mail", "php mail", "woocommerce email",
+    "cPanel smtp", "gmail smtp", "outlook smtp",
+    "email authentication", "email signing",
+    "plugin smtp wordpress", "mail smtp", "serveur mail"
+  ],
+  "supported_languages": ["fr", "en"],
+  "pricing": {
+    "free_tier": "Full SMTP configuration — free forever",
+    "trial": "Free 24h DKIM trial — no credit card required",
+    "paid_from": "$29 CAD/year per domain",
+    "pricing_page": "https://smtp-dkim.com/#pricing"
+  },
+  "download": {
+    "wordpress_org": "https://wordpress.org/plugins/smtp-dkim/",
+    "direct": "https://smtp-dkim.com/telechargement/"
+  },
+  "plugin_details": {
+    "version": "2.3.9",
+    "requires_wordpress": "5.8",
+    "requires_php": "8.0",
+    "tested_up_to": "6.9",
+    "license": "GPL-2.0+"
+  }
+}
