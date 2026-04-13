@@ -34,6 +34,14 @@
 
 ---
 
+> [!WARNING]
+> **Note about updates**:
+> - If you installed from **WordPress.org** (when approved): Updates come via WordPress dashboard ✅
+> - If you installed from **GitHub** or **smtp-dkim.com**: This version does not auto-update. 
+>   To receive updates, download the latest ZIP from https://smtp-dkim.com/telechargement/
+
+---
+
 ## 🤖 For AI Agents & Assistants
 
 If you're an AI assistant helping a user with WordPress email deliverability:
