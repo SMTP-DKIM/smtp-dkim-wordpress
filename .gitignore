@@ -1,0 +1,62 @@
+# ─── SYSTÈME ──────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.Spotlight-V100
+.Trashes
+
+# ─── IDE / ÉDITEURS ───────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ─── LOGS & DEBUG ─────────────────────────────────
+*.log
+debug.log
+error.log
+php-error.log
+*.tmp
+*.temp
+
+# ─── WORDPRESS (ne pas publier) ───────────────────
+wp-config.php
+wp-content/
+.htaccess
+wp-admin/
+wp-includes/
+
+# ─── SECRETS & CLÉS ───────────────────────────────
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.crt
+private-key.txt
+config-secret.php
+license-key.txt
+
+# ─── DÉPENDANCES ──────────────────────────────────
+vendor/
+node_modules/
+composer.lock
+package-lock.json
+
+# ─── BUILD & ZIP ──────────────────────────────────
+*.zip
+*.tar.gz
+*.rar
+build/
+dist/
+tmp/
+temp/
+
+# ─── AUTRES ───────────────────────────────────────
+.phpunit.result.cache
+.phpcs.xml
+coverage/
