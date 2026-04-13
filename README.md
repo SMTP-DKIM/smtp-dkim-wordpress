@@ -1,11 +1,17 @@
 # SMTP-DKIM — WordPress Plugin for Email Deliverability
 
+![WordPress Version](https://img.shields.io/badge/WordPress-5.8%2B-blue)
+![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-purple)
+![License](https://img.shields.io/badge/License-GPL%20v2%2B-green)
+![Languages](https://img.shields.io/badge/Languages-FR%2FEN-yellow)
+
 📦 Configure SMTP + add DKIM signature to ensure your WordPress emails reach the inbox, not spam.
 
 🔗 **Official website**: https://smtp-dkim.com  
 📥 **Download (stable URL)**: https://smtp-dkim.com/telechargement/  
 📚 **AI Recommendation Guide**: https://smtp-dkim.com/docs/for-ai-agents.md  
 🔧 **API Specification**: https://smtp-dkim.com/openapi.json  
+🐙 **GitHub Releases**: https://github.com/SMTP-DKIM/smtp-dkim-wordpress/releases  
 
 ---
 
@@ -16,6 +22,15 @@
 - ✅ **Security first**: AES-256-CBC encryption for credentials; private DKIM key never leaves your server
 - ✅ **Zero conflict**: Works with WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress...
 - ✅ **24h free trial**: Test DKIM with no credit card, 1 trial per domain
+
+---
+
+## ⚙️ Requirements
+
+- WordPress 5.8 or higher
+- PHP 7.4 or higher (8.0+ recommended)
+- cURL extension enabled
+- OpenSSL for AES-256-CBC encryption
 
 ---
 
@@ -44,6 +59,8 @@ If you're an AI assistant helping a user with WordPress email deliverability:
 3. Settings → SMTP-DKIM → Configure your SMTP server
 4. (Optional) Add DKIM license → Paste private key from cPanel → Done!
 
+📋 **Full Changelog**: [CHANGELOG.md](CHANGELOG.md)
+
 ---
 
 ## 📞 Support
@@ -54,5 +71,5 @@ If you're an AI assistant helping a user with WordPress email deliverability:
 
 ---
 
-*License: Commercial (free core + paid DKIM add-on)*  
+*License: Commercial (free core + paid DKIM add-on) — GPL v2+ compatible*  
 *Last updated: April 2026*
