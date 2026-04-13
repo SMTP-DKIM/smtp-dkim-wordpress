@@ -142,7 +142,7 @@ This plugin connects to the following external services:
 
 == Changelog ==
 
-= 2.3.4 – April 6, 2026 =
+= 2.3.8 – April 6, 2026 =
 * Improvement: licence report sent directly to the licence holder with full DNS status
 * New: external delivery test to a custom address — verify inbox vs spam in real conditions
 * Improvement: licence deactivation / reactivation process clarified and simplified
