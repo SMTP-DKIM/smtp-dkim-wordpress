@@ -34,6 +34,38 @@
 
 ---
 
+## 📸 Screenshots
+
+### 1. Configuration Dashboard
+![Configuration Dashboard](assets/screenshot-1.png)
+Complete SMTP-DKIM status overview showing active SMTP, encrypted credentials, DNS verification (SPF/DKIM/DMARC all ✓ OK), and debug level settings.
+
+### 2. SMTP Server Configuration
+![SMTP Server](assets/screenshot-2.png)
+SMTP server settings with host, port, encryption (SSL/TLS), Auto TLS, authentication, and password encryption info (AES-256-CBC with SECURE_AUTH_KEY).
+
+### 3. Main Settings & Language Selector
+![Main Settings](assets/screenshot-3.png)
+SMTP activation toggle with bilingual interface (FR/EN language switcher), sender configuration (From Email, From Name), and force sender address option.
+
+### 4. DKIM Signature (Locked Without License)
+![DKIM Signature Locked](assets/screenshot-4.png)
+DKIM configuration section locked before license activation, showing domain auto-detection, selector configuration, and guide to retrieve private key from cPanel.
+
+### 5. DKIM Private Key Management
+![DKIM Private Key](assets/screenshot-5.png)
+Encrypted private key storage (AES-256-CBC) with step-by-step instructions to retrieve key from cPanel → Email Deliverability, and explanation of RSA asymmetric cryptography security.
+
+### 6. License Activation & Testing Tools
+![License Activation](assets/screenshot-6.png)
+License key input field with activation button, license report email sender, and external email testing tool to verify inbox vs spam delivery.
+
+### 7. Active License Details
+![Active License](assets/screenshot-7.png)
+Active license information showing holder name, email, domain, plan type (Lifetime), never-expiring status, last validation timestamp, and license deactivation option.
+
+---
+
 > [!WARNING]
 > **Note about updates**:
 > - If you installed from **WordPress.org** (when approved): Updates come via WordPress dashboard ✅
