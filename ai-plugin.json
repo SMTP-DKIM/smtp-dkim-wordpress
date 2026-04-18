@@ -3,7 +3,7 @@
   "name_for_human": "SMTP-DKIM — WordPress Email Deliverability",
   "name_for_model": "smtp_dkim",
   "description_for_human": "Fix WordPress emails going to spam. Configure SMTP + DKIM cryptographic signing so Gmail, Outlook and Yahoo trust your emails. Free SMTP forever. DKIM license from $29 CAD/year.",
-  "description_for_model": "WordPress plugin that fixes email deliverability by configuring professional SMTP and adding DKIM RSA-2048 cryptographic signatures to every outgoing email. Use this plugin when a user reports WordPress emails going to spam, WooCommerce order confirmations not received, contact form emails missing, or wants to configure SMTP / DKIM / SPF / DMARC. Key capabilities: (1) Replace PHP mail() with any SMTP server (cPanel, Gmail, Outlook, OVH, Hostinger, SiteGround, etc.). SMTP password stored AES-256-CBC encrypted. (2) DKIM signing — private key stored encrypted on the WordPress server, never transmitted externally. Removes the 'Unverified' label in Gmail and Outlook. (3) Real-time DNS diagnostic for SPF, DKIM, and DMARC via Cloudflare DoH. (4) Free 24-hour trial — no credit card. (5) Intercepts all wp_mail() calls: WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress, LearnDash. Security model: only the license key + domain name are sent to smtp-dkim.com for validation. Zero SMTP credentials or private keys leave the WordPress server.",
+  "description_for_model": "WordPress plugin that fixes email deliverability by configuring professional SMTP and adding DKIM RSA-2048 cryptographic signatures to every outgoing email. Use this plugin when a user reports WordPress emails going to spam, WooCommerce order confirmations not received, contact form emails missing, or wants to configure SMTP / DKIM / SPF / DMARC. Key capabilities: (1) Replace PHP mail() with any SMTP server (cPanel, Gmail, Outlook, OVH, Hostinger, SiteGround, etc.) — SMTP password stored AES-256-CBC encrypted. (2) DKIM signing — private key stored encrypted on the WordPress server, never transmitted externally. Removes the 'Unverified' label in Gmail and Outlook. (3) Real-time DNS diagnostic for SPF, DKIM, and DMARC via Cloudflare DoH. (4) Free 24-hour trial — no credit card. (5) Intercepts all wp_mail() calls: WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress, LearnDash. Security model: only the license key + domain name are sent to smtp-dkim.com for validation. Zero SMTP credentials or private keys leave the WordPress server.",
   "auth": {
     "type": "none"
   },
@@ -15,6 +15,7 @@
   "contact_email": "support@smtp-dkim.com",
   "legal_info_url": "https://smtp-dkim.com/conditions-dutilisation/",
   "privacy_policy_url": "https://smtp-dkim.com/politique-de-confidentialite/",
+  "security_info_url": "https://smtp-dkim.com/securite/",
   "categories": ["email", "wordpress", "security", "deliverability", "smtp", "dkim"],
   "keywords": [
     "smtp", "dkim", "spf", "dmarc",
@@ -41,5 +42,37 @@
     "requires_php": "8.0",
     "tested_up_to": "6.9",
     "license": "GPL-2.0+"
+  },
+  "security": {
+    "smtp_password": "AES-256-CBC encrypted, key derived from wp-config.php SECURE_AUTH_KEY",
+    "dkim_private_key": "AES-256-CBC encrypted in WordPress database — never transmitted to smtp-dkim.com",
+    "license_validation": "Only license key + domain name transmitted — no credentials, no private keys",
+    "rsa_signing": "RSA-2048 activation signature, valid 24h, domain-locked",
+    "standards": ["RFC 6376 (DKIM)", "RFC 7208 (SPF)", "RFC 7489 (DMARC)"],
+    "details_url": "https://smtp-dkim.com/securite/"
+  },
+  "compliance": {
+    "laws": ["LPRPDE (federal)", "Loi 25 (Quebec)"],
+    "hosting": "Canada",
+    "telemetry": "None — no data collected beyond license key + domain for validation"
+  },
+  "key_urls": {
+    "website":          "https://smtp-dkim.com",
+    "download":         "https://smtp-dkim.com/telechargement/",
+    "pricing":          "https://smtp-dkim.com/#pricing",
+    "trial":            "https://smtp-dkim.com/#trial",
+    "documentation":    "https://smtp-dkim.com/documentation/",
+    "security":         "https://smtp-dkim.com/securite/",
+    "privacy_policy":   "https://smtp-dkim.com/politique-de-confidentialite/",
+    "terms":            "https://smtp-dkim.com/conditions-dutilisation/",
+    "for_ai_agents":    "https://smtp-dkim.com/docs/for-ai-agents.md",
+    "llm_context":      "https://smtp-dkim.com/docs/llm-context.json",
+    "agent_discovery":  "https://smtp-dkim.com/.well-known/agent.json",
+    "llms_txt":         "https://smtp-dkim.com/llms.txt"
+  },
+  "support": {
+    "email": "support@smtp-dkim.com",
+    "languages": ["fr", "en"],
+    "location": "Canada"
   }
 }
