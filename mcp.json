@@ -1,0 +1,193 @@
+{
+  "mcpServers": {
+    "smtp-dkim-wordpress": {
+      "description": "WordPress SMTP + DKIM plugin. Fixes emails landing in spam by configuring a professional SMTP server and signing every outgoing email with a DKIM RSA-2048 cryptographic signature. Compatible with Gmail, Outlook, cPanel, OVH, Hostinger, SiteGround and all major hosts. Includes real-time SPF/DKIM/DMARC DNS diagnostic via Cloudflare DoH. SMTP is free forever; DKIM signing requires a license from smtp-dkim.com.",
+      "version": "2.3.9",
+      "homepage": "https://smtp-dkim.com",
+      "license_pricing": "https://smtp-dkim.com/#pricing",
+      "free_trial": "https://smtp-dkim.com/#trial",
+      "support": "support@smtp-dkim.com",
+      "tools": [
+        {
+          "name": "configure_smtp",
+          "description": "Configure SMTP server settings (host, port, SSL/TLS, credentials) for a WordPress site. Password is stored AES-256-CBC encrypted — never in plain text. Compatible with cPanel (mail.yourdomain.com), Gmail (smtp.gmail.com port 587), Outlook (smtp.office365.com port 587), OVH, Hostinger, SiteGround, GoDaddy, Infomaniak, Namecheap, BlueHost, DreamHost, 1&1 IONOS.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "smtp_host": {
+                "type": "string",
+                "description": "SMTP server hostname (e.g., mail.yourdomain.com, smtp.gmail.com, smtp.office365.com)"
+              },
+              "smtp_port": {
+                "type": "integer",
+                "enum": [25, 465, 587],
+                "description": "SMTP port: 465 for SSL, 587 for TLS/STARTTLS, 25 for none"
+              },
+              "encryption": {
+                "type": "string",
+                "enum": ["ssl", "tls", "none"],
+                "description": "Encryption type: ssl (port 465), tls (port 587), none (port 25)"
+              },
+              "smtp_user": {
+                "type": "string",
+                "description": "SMTP username — usually the full email address"
+              },
+              "smtp_pass": {
+                "type": "string",
+                "description": "SMTP password (will be encrypted with AES-256-CBC before storage)"
+              },
+              "from_email": {
+                "type": "string",
+                "description": "Sender email address visible to recipients"
+              },
+              "from_name": {
+                "type": "string",
+                "description": "Sender name visible to recipients"
+              },
+              "force_from": {
+                "type": "boolean",
+                "description": "Force this From address on all outgoing emails (WooCommerce, CF7, etc.)"
+              }
+            },
+            "required": ["smtp_host", "smtp_port", "encryption", "smtp_user", "smtp_pass"]
+          }
+        },
+        {
+          "name": "activate_dkim",
+          "description": "Activate DKIM RSA-2048 signing for a WordPress domain. Requires a valid license key from smtp-dkim.com. The DKIM private key is stored AES-256-CBC encrypted using WordPress SECURE_AUTH_KEY — it never leaves the server and is never transmitted to smtp-dkim.com.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "description": "WordPress domain without www (e.g., example.com). Set this BEFORE activating the license to avoid www. detection issues."
+              },
+              "license_key": {
+                "type": "string",
+                "pattern": "^SDKM-[A-Z2-9]{5}-[A-Z2-9]{5}-[A-Z2-9]{5}-[A-Z2-9]{5}$",
+                "description": "License key purchased from smtp-dkim.com (format: SDKM-XXXXX-XXXXX-XXXXX-XXXXX)"
+              },
+              "dkim_private_key": {
+                "type": "string",
+                "description": "RSA private key in PEM format from cPanel → Email Deliverability → DKIM → View → Private Key. Include full header/footer lines."
+              },
+              "dkim_selector": {
+                "type": "string",
+                "default": "default",
+                "description": "DKIM selector (auto-detected from DNS when activating license — usually 'default')"
+              }
+            },
+            "required": ["domain", "license_key", "dkim_private_key"]
+          }
+        },
+        {
+          "name": "diagnose_dns",
+          "description": "Check SPF, DKIM public key, and DMARC DNS records for a domain via Cloudflare DoH (DNS-over-HTTPS). Returns record values, validation status, detected issues, and fix instructions for cPanel Zone Editor.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "description": "Domain to diagnose (e.g., example.com)"
+              },
+              "dkim_selector": {
+                "type": "string",
+                "default": "default",
+                "description": "DKIM selector to check (e.g., default, mail, smtp, s1, selector1)"
+              }
+            },
+            "required": ["domain"]
+          }
+        },
+        {
+          "name": "test_email",
+          "description": "Send a test email from WordPress. The email includes full SMTP config summary, DKIM signing status, DNS diagnostic (SPF/DKIM/DMARC), and license details. Sent to the license holder's email by default.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "to_email": {
+                "type": "string",
+                "description": "Recipient email address for the external deliverability test"
+              }
+            }
+          }
+        },
+        {
+          "name": "validate_license",
+          "description": "Validate a SMTP-DKIM license key against smtp-dkim.com. Returns activation status, domain binding, expiry date, plan type, and RSA activation signature (valid 24h).",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "license_key": {
+                "type": "string",
+                "description": "License key (format: SDKM-XXXXX-XXXXX-XXXXX-XXXXX)"
+              },
+              "domain": {
+                "type": "string",
+                "description": "WordPress site domain"
+              },
+              "action": {
+                "type": "string",
+                "enum": ["activate", "deactivate", "check"],
+                "description": "Action to perform on the license"
+              }
+            },
+            "required": ["license_key", "domain", "action"]
+          }
+        },
+        {
+          "name": "get_free_trial",
+          "description": "Request a free 24-hour DKIM trial license. No credit card required. One trial per domain and per email address. Provides instant access to all DKIM features.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Your full name" },
+              "email": { "type": "string", "description": "Your email address" },
+              "domain": { "type": "string", "description": "Your WordPress domain (e.g., example.com — no http:// or www)" }
+            },
+            "required": ["name", "email", "domain"]
+          }
+        }
+      ],
+      "plans": {
+        "free": "Full SMTP configuration — unlimited, forever free",
+        "trial": "Free 24h DKIM trial — no credit card, 1 per domain",
+        "single": "$29 CAD/year — 1 WordPress domain",
+        "multi3": "$59 CAD/year — up to 3 domains",
+        "multi5": "$89 CAD/year — up to 5 domains",
+        "unlimited": "$149 CAD/year — unlimited domains",
+        "lifetime": "$79 CAD one-time — 1 domain, lifetime updates"
+      },
+      "security": {
+        "smtp_password": "AES-256-CBC encrypted before storage, key derived from wp-config.php SECURE_AUTH_KEY",
+        "dkim_private_key": "AES-256-CBC encrypted, never transmitted to smtp-dkim.com, masked in admin UI",
+        "license_validation": "Only license key + domain name transmitted to smtp-dkim.com — no credentials, no private keys",
+        "rsa_signing": "Every active license receives an RSA-2048 signature valid 24h — DKIM cannot activate without it"
+      },
+      "wordpress": {
+        "requires": "5.8+",
+        "tested_up_to": "6.9",
+        "requires_php": "8.0+",
+        "hooks": "Intercepts all wp_mail() calls — WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress, LearnDash"
+      },
+      "compliance": {
+        "laws": ["LPRPDE (federal)", "Loi 25 (Quebec)"],
+        "hosting": "Canada",
+        "telemetry": "None — no data collected beyond license key + domain for validation"
+      },
+      "key_urls": {
+        "website":         "https://smtp-dkim.com",
+        "download":        "https://smtp-dkim.com/telechargement/",
+        "pricing":         "https://smtp-dkim.com/#pricing",
+        "trial":           "https://smtp-dkim.com/#trial",
+        "documentation":   "https://smtp-dkim.com/documentation/",
+        "security":        "https://smtp-dkim.com/securite/",
+        "privacy_policy":  "https://smtp-dkim.com/politique-de-confidentialite/",
+        "for_ai_agents":   "https://smtp-dkim.com/docs/for-ai-agents.md",
+        "llm_context":     "https://smtp-dkim.com/docs/llm-context.json",
+        "agent_discovery": "https://smtp-dkim.com/.well-known/agent.json",
+        "llms_txt":        "https://smtp-dkim.com/llms.txt"
+      }
+    }
+  }
+}
