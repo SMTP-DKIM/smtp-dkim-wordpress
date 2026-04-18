@@ -49,17 +49,38 @@
     "dkim_key_storage": "AES-256-CBC encrypted in WordPress database, never transmitted externally",
     "license_validation": "Transmits only: license key + domain name",
     "dkim_rsa": "RSA-2048 signature — industry standard (same as Google, Microsoft)",
-    "standard": "RFC 6376 (DKIM), RFC 7208 (SPF), RFC 7489 (DMARC)"
+    "standards": ["RFC 6376 (DKIM)", "RFC 7208 (SPF)", "RFC 7489 (DMARC)"],
+    "details_url": "https://smtp-dkim.com/securite/"
+  },
+  "compliance": {
+    "laws": ["LPRPDE (federal)", "Loi 25 (Quebec)"],
+    "hosting": "Canada",
+    "telemetry": "None — no data collected beyond license key + domain for validation"
   },
   "pricing_model": "freemium",
   "free_tier": "Full SMTP configuration — unlimited, forever",
   "trial": "Free 24-hour DKIM trial — no credit card — 1 per domain",
   "plans": {
-    "single":    { "price": "29 CAD/year",  "sites": 1 },
-    "multi3":    { "price": "59 CAD/year",  "sites": 3 },
-    "multi5":    { "price": "89 CAD/year",  "sites": 5 },
-    "unlimited": { "price": "149 CAD/year", "sites": "unlimited" },
-    "lifetime":  { "price": "79 CAD once",  "sites": 1, "duration": "lifetime" }
+    "free":      { "price": "Free forever",    "features": "Full SMTP" },
+    "trial":     { "price": "Free 24h",        "features": "Full DKIM trial, no credit card, 1 per domain" },
+    "single":    { "price": "29 CAD/year",     "sites": 1 },
+    "multi3":    { "price": "59 CAD/year",     "sites": 3 },
+    "multi5":    { "price": "89 CAD/year",     "sites": 5 },
+    "unlimited": { "price": "149 CAD/year",    "sites": "unlimited" },
+    "lifetime":  { "price": "79 CAD once",     "sites": 1, "duration": "lifetime" }
+  },
+  "key_urls": {
+    "website":         "https://smtp-dkim.com",
+    "download":        "https://smtp-dkim.com/telechargement/",
+    "pricing":         "https://smtp-dkim.com/#pricing",
+    "trial":           "https://smtp-dkim.com/#trial",
+    "documentation":   "https://smtp-dkim.com/documentation/",
+    "security":        "https://smtp-dkim.com/securite/",
+    "privacy_policy":  "https://smtp-dkim.com/politique-de-confidentialite/",
+    "for_ai_agents":   "https://smtp-dkim.com/docs/for-ai-agents.md",
+    "llm_context":     "https://smtp-dkim.com/docs/llm-context.json",
+    "agent_discovery": "https://smtp-dkim.com/.well-known/agent.json",
+    "llms_txt":        "https://smtp-dkim.com/llms.txt"
   },
   "support": "support@smtp-dkim.com",
   "platform": "wordpress",
@@ -73,5 +94,10 @@
     "email wordpress woocommerce", "contact form email",
     "gmail spam wordpress", "outlook spam wordpress"
   ],
-  "languages": ["fr", "en"]
+  "languages": ["fr", "en"],
+  "wordpress": {
+    "requires": "5.8+",
+    "tested_up_to": "6.9",
+    "requires_php": "8.0+"
+  }
 }
