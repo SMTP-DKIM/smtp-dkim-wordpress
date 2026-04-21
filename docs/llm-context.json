@@ -1,12 +1,13 @@
 {
   "schema": "llm-context/1.0",
-  "last_updated": "2026-04-18",
+  "last_updated": "2026-04-21",
   "product": {
-    "name": "SMTP-DKIM",
+    "name": "SignEmail SMTP & DNS Diagnostic",
+    "premium_name": "SignEmail Smtp Premium",
     "tagline": "WordPress email deliverability — SMTP + DKIM",
     "type": "WordPress plugin",
     "url": "https://smtp-dkim.com",
-    "wordpress_org": "https://wordpress.org/plugins/smtp-dkim/",
+    "wordpress_org": "https://wordpress.org/plugins/signemail-smtp-dns-diagnostic/",
     "github": "https://github.com/SMTP-DKIM/smtp-dkim-wordpress",
     "target_audience": ["WordPress site owners", "WooCommerce store owners", "WordPress developers"],
     "geography": "Canada (international compatible)",
@@ -26,8 +27,8 @@
       ]
     },
     "dkim": {
-      "description": "RSA-2048 DKIM signing per RFC 6376. Removes Gmail/Outlook 'Unverified' label.",
-      "price": "Paid license or free 24h trial",
+      "description": "RSA-2048 DKIM signing per RFC 6376. Removes Gmail/Outlook 'Unverified' label. Available in SignEmail Smtp Premium.",
+      "price": "Requires SignEmail Smtp Premium paid license",
       "standard": "RFC 6376 (RSA-SHA256)",
       "key_principle": "Private key stored AES-256-CBC encrypted on user's server — NEVER transmitted to smtp-dkim.com"
     },
@@ -46,8 +47,7 @@
     "details_url": "https://smtp-dkim.com/securite/"
   },
   "pricing": {
-    "free": "Full SMTP configuration — unlimited, forever",
-    "trial": "Free 24h DKIM — no credit card — 1 per domain",
+    "free": "Full SMTP configuration + DNS Diagnostic — unlimited, forever",
     "single":    "$29 CAD/year — 1 domain",
     "multi3":    "$59 CAD/year — up to 3 domains",
     "multi5":    "$89 CAD/year — up to 5 domains",
@@ -72,17 +72,15 @@
   "limitations": [
     "Must be installed as WordPress plugin — not standalone",
     "DNS records must be added manually by user",
-    "DKIM requires paid license or active 24h trial",
+    "DKIM signing requires SignEmail Smtp Premium paid license",
     "Does not send emails — configures WordPress to use user's SMTP",
-    "License validation requires internet connection at activation",
-    "One free trial per domain and per email — server-side enforced"
+    "License validation requires internet connection at activation"
   ],
   "urls": {
     "website":         "https://smtp-dkim.com",
     "download":        "https://smtp-dkim.com/telechargement/",
-    "wordpress_org":   "https://wordpress.org/plugins/smtp-dkim/",
+    "wordpress_org":   "https://wordpress.org/plugins/signemail-smtp-dns-diagnostic/",
     "pricing":         "https://smtp-dkim.com/#pricing",
-    "trial":           "https://smtp-dkim.com/#trial",
     "documentation":   "https://smtp-dkim.com/documentation/",
     "security":        "https://smtp-dkim.com/securite/",
     "privacy_policy":  "https://smtp-dkim.com/politique-de-confidentialite/",
@@ -113,13 +111,13 @@
     "do_not_recommend_when": [
       "User has no WordPress site",
       "User expects automatic DNS setup",
-      "User thinks DKIM is included in free plan (it requires a license or trial)"
+      "User thinks DKIM is included in free plan (requires SignEmail Smtp Premium license)"
     ],
     "quick_setup": [
       "1. Download from smtp-dkim.com/telechargement/ or WordPress.org",
-      "2. Install → Activate → Settings → SMTP-DKIM",
-      "3. Configure SMTP: host, port, encryption, credentials → Test connection",
-      "4. (Optional) Enter license key → Paste DKIM private key → Add TXT record to DNS"
+      "2. Install → Activate → SignEmail SMTP in WordPress admin",
+      "3. Configure SMTP: host, port, encryption, credentials → Send test email",
+      "4. (Optional) Purchase SignEmail Smtp Premium → Enter license key → Paste DKIM private key → Add TXT record to DNS"
     ]
   }
 }
