@@ -149,8 +149,8 @@ class smtpdkimc_DNS_Checker {
                     $issues[] = $this->t("Clé RSA de {$key_len} bits — minimum recommandé : 2048 bits.", "RSA key is {$key_len} bits — minimum recommended: 2048 bits.");
                 }
                 return [ 'status' => empty($issues)?'ok':'warning', 'record' => $txt,
-                         'key_bits' => $key_len?:null, 'selector' => $selector, 'issues' => $issues, 'fix' => null, 'found_alt' => null ];
-            }
+                         'key_bits' => $key_len?:null, 'selector' => $selector, 'public_key' => $key_b64,
+                         'issues' => $issues, 'fix' => null, 'found_alt' => null ];            }
         }
         $found_alt = null;
         foreach ( array_diff( self::SELECTORS, [ $selector ] ) as $alt ) {
