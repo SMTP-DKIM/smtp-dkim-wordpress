@@ -1,176 +1,173 @@
-=== SMTP DKIM ===
+=== SignEmail SMTP & DNS Diagnostic ===
 Contributors: smtpdkim
-Tags: smtp, email, dkim, mail, deliverability
+Tags: smtp, email, mail, deliverability, dkim
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 2.3.8
+Stable tag: 2.4.35
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Stop your WordPress emails from going to spam. Sign every outgoing email with DKIM cryptography so Gmail, Outlook and Yahoo trust your messages.
+Stop WordPress emails from going to spam. Send emails via SMTP and check SPF, DKIM, DMARC records to improve email deliverability.
 
 == Description ==
 
-🚨 **Are your WordPress emails landing in your customers' spam folder?**
+🚨 Are your WordPress emails going to spam?
 
-Gmail, Outlook and Yahoo silently reject unauthenticated emails. Result: order confirmations, passwords, notifications — all gone. **SMTP DKIM is the solution.**
+Without proper email authentication, services like Gmail, Outlook, and Yahoo may block or mark your emails as spam. This results in lost notifications, password resets, and order emails.
 
-Send your WordPress emails via **professional SMTP**, sign them with **DKIM**, and make sure they land **directly in the inbox** — not in spam. All your data stays encrypted on your own server.
-
----
-
-**Why SMTP alone is not enough**
-
-Without DKIM, even an email sent via professional SMTP can be marked as spam. DKIM is a cryptographic digital signature that proves *you* sent that email — and that nobody altered it in transit. **This is what Gmail, Yahoo and Outlook have required since 2024.**
+SignEmail SMTP helps you send reliable WordPress emails using professional SMTP servers, with optional DKIM authentication support.
 
 ---
 
-= 📬 No more emails in spam =
+= Why email authentication matters =
 
-SMTP + DKIM + SPF + DMARC: the winning combination for maximum deliverability. Gmail and Outlook will trust every email you send.
-
-= ⚙️ Universal SMTP Configuration =
-
-Compatible with all SMTP providers — Gmail, Outlook, Brevo, cPanel, OVH, Infomaniak, SiteGround, GoDaddy, Bluehost, WP Engine, Kinsta, Namecheap, Gandi, o2switch, LWS, PlanetHoster and more. SSL/TLS with AES-256 encrypted password.
-
-= 🔏 Built-in DKIM Signing =
-
-Every outgoing email is signed with your RSA private key. Your customers receive authenticated, trusted emails. Removes the "Unverified" label in Outlook and Gmail.
-
-= 🔍 Real-time DNS Diagnostic =
-
-Check SPF, DKIM and DMARC in one click via Cloudflare DoH. Guided fixes if a record is missing or incorrect.
-
-= 🔒 Your data stays with you =
-
-SMTP password and DKIM private key encrypted AES-256-CBC in your WordPress database. Nothing is sent to smtp-dkim.com. Unlike other SMTP plugins, **zero configuration data ever leaves your server.**
-
-= 🌐 Fully bilingual FR / EN =
-
-Complete French and English interface. Perfect for agencies managing clients in both languages. Language preference saved per user.
+Modern email providers require proper authentication (SPF, DKIM, DMARC) to trust your messages. Without it, even valid emails may be filtered as spam.
 
 ---
 
-= SMTP Features (Free) =
+= 📬 SMTP Email Delivery =
 
-* Complete SMTP configuration: server, port, SSL/TLS/STARTTLS/None
-* AES-256-CBC encrypted password — never stored or transmitted in plain text
-* Force sender email and name on all outgoing emails
-* Auto TLS, debug levels 0–4, built-in test email
-* External delivery test to any address — verify inbox vs spam in real conditions
-* Built-in DNS diagnostic: SPF · DKIM · DMARC via Cloudflare DoH
-* Intercepts all wp_mail() calls: WooCommerce, CF7, Gravity Forms, Elementor, BuddyPress, LearnDash, etc.
-* Bilingual French/English interface with per-user language selector
+Send all WordPress emails through reliable SMTP servers instead of PHP mail(), improving deliverability and consistency.
 
-= DKIM Signing (licence required) =
+= ⚙️ Universal SMTP Compatibility =
 
-* RSA cryptographic signature on every outgoing email
-* Removes "Unverified" label in Gmail and Outlook
-* Automatic DKIM selector detection from live DNS on activation
-* Domain locked after activation — no risk of accidental change
-* Automatic licence revalidation every 2 hours via WordPress cron
-* Licence report email with full DNS status (SPF · DKIM · DMARC)
-* Deactivate on one domain → reactivate immediately on another
+Compatible with Gmail, Outlook, Brevo, cPanel, OVH, Infomaniak, SiteGround, GoDaddy, Bluehost, WP Engine, Kinsta, Namecheap, Gandi, o2switch, LWS, and more.
+
+= 🔍 Email Testing Tool =
+
+Send test emails to verify inbox delivery and diagnose spam placement in real conditions.
+
+= 🔎 DNS Diagnostic Tool =
+
+Check SPF, DKIM, and DMARC records using Cloudflare DNS-over-HTTPS.
+
+= 🔒 Secure Storage =
+
+SMTP credentials are encrypted using AES-256-CBC and stored securely in your WordPress database.
+
+= 🌐 Multilingual Support =
+
+Full French and English interface with per-user language selection.
+
+---
+
+= SMTP Features =
+
+* Full SMTP configuration (SSL / TLS / STARTTLS / None)
+* Encrypted password storage (AES-256-CBC)
+* Force sender email and name
+* Debug logging system
+* Built-in email test tool
+* DNS verification (SPF / DKIM / DMARC)
+* Compatible with WooCommerce, CF7, Elementor, Gravity Forms, BuddyPress, LearnDash, etc.
+* Fully intercepts wp_mail()
+
+---
+
+= Optional DKIM Support =
+
+DKIM email signing is available in the **Premium version** of this plugin — smtp-dkim.com.
+
+* Works alongside SMTP delivery
+* Improves inbox trust and deliverability
 
 = Security & Privacy =
 
-* SMTP password encrypted AES-256-CBC before storage
-* DKIM private key encrypted and masked in the interface
-* Encryption key unique to your installation (derived from SECURE_AUTH_KEY)
-* Licence validation sends only: licence key + domain name — nothing else
-* **Zero SMTP credentials, passwords or private keys ever reach smtp-dkim.com**
+* SMTP credentials encrypted before storage
+* No credentials are sent to external servers
+* License verification (if used) only transmits license key + domain name
+* No email content is ever transmitted externally
+
+---
 
 == Installation ==
 
-1. Upload the `smtp-dkim` folder to `/wp-content/plugins/`
-2. Activate from **Plugins > Installed Plugins**
-3. Go to **SMTP DKIM** in the WordPress sidebar
-4. Set your DKIM domain manually (e.g. `yourdomain.com`) — do this **before** activating your licence to avoid www. detection issues
-5. Configure your SMTP settings and click Save
-6. Activate your DKIM licence from smtp-dkim.com
-7. Paste your DKIM private key from cPanel → Email Deliverability
-8. Run the DNS diagnostic — verify SPF, DKIM and DMARC are green
-9. Send a test email to confirm inbox delivery ✅
+1. Upload plugin folder to /wp-content/plugins/
+2. Activate plugin
+3. Open SignEmail SMTP menu in WordPress admin
+4. Configure SMTP settings
+5. Run email test
+6. (Optional) Configure DKIM if supported by your mail provider
+7. Run DNS diagnostic tool
+
+---
 
 == Frequently Asked Questions ==
 
-= Does the plugin work without a DKIM licence? =
-Yes. All SMTP features are completely free. The licence unlocks DKIM signing only. Your emails are still sent via SMTP without DKIM signature.
+= Does the plugin work without DKIM? =
+Yes. SMTP email delivery works fully without DKIM.
 
-= Is my SMTP data sent to smtp-dkim.com? =
-No. Only the licence key validation (key + domain) reaches our servers. No SMTP credentials, no passwords, no private keys ever leave your server.
+= Is any data sent to external servers? =
+No SMTP credentials or email content are ever sent externally.
 
-= My domain starts with www. — will DKIM work? =
-Set your DKIM domain manually (e.g. `yourdomain.com`) in the plugin BEFORE activating your licence to avoid the www. detection issue.
+= Can I test email delivery? =
+Yes, built-in test tool allows sending emails to verify inbox or spam placement.
 
-= Where do I find my DKIM private key? =
-cPanel → Email Deliverability → your domain → DKIM → View → copy the full Private Key block (from `-----BEGIN RSA PRIVATE KEY-----` to `-----END RSA PRIVATE KEY-----`).
+= Is it compatible with WooCommerce? =
+Yes, it integrates with all WordPress email systems using wp_mail().
 
-= Why can't the private key be detected automatically? =
-The DNS contains only the DKIM public key. The private key is generated on your cPanel server and never published in DNS — this is the RSA asymmetric cryptography principle that makes DKIM signatures secure.
+= Can I move configuration between sites? =
+Yes, settings can be exported and reused.
 
-= Can I move my licence to another domain? =
-Yes. Deactivate your licence in the plugin — the domain is released on the server side. Then reactivate on the new domain immediately.
-
-= What happens when my licence expires? =
-Your DKIM private key remains safely encrypted in your database. DKIM signing is disabled until renewal. Your emails continue to be sent via SMTP without DKIM signature.
-
-= Is the plugin compatible with WooCommerce? =
-Yes. SMTP DKIM intercepts all wp_mail() calls: WooCommerce, CF7, Gravity Forms, BuddyPress, LearnDash, etc.
-
-= Can I use one licence on multiple sites? =
-Depends on your plan: 1 site, 3 sites, 5 sites, unlimited or lifetime plans are available at smtp-dkim.com.
+---
 
 == External Services ==
 
-This plugin connects to the following external services:
+This plugin may connect to external services:
 
-**1. smtp-dkim.com — Licence validation API**
-* URL: https://smtp-dkim.com/wp-json/sdlm/v1/validate
-* Purpose: Validates your DKIM licence key. Sends only the licence key and your domain name. No SMTP credentials, no private keys, no personal data beyond the domain.
-* When: Only when you activate, deactivate or verify a licence from the plugin admin page, and automatically every 2 hours via WordPress cron.
+1. DNS-over-HTTPS (Cloudflare)
+   - Used for DNS validation (SPF/DKIM/DMARC)
+   - Only triggered manually by admin action
 
-**2. Cloudflare DNS over HTTPS — DNS diagnostic tool**
-* URL: https://cloudflare-dns.com/dns-query
-* Purpose: Resolves SPF, DKIM and DMARC DNS records for your domain. Used only by the built-in DNS diagnostic tool.
-* When: Only when you manually click "Scan DNS" in the plugin admin page.
+2. SMTP Server (user configured)
+   - Used to send WordPress emails
+   - No external dependency required
 
-**3. Your SMTP mail server**
-* Purpose: Sends WordPress emails through your configured SMTP server.
-* When: Every time WordPress sends an email (wp_mail()).
+3. License validation (optional)
+   - Endpoint: https://smtp-dkim.com/wp-json/sdlm/v1/validate
+   - Sends only license key + domain
+   - No email or SMTP data is transmitted
+
+---
 
 == Changelog ==
 
-= 2.3.8 – April 6, 2026 =
-* Improvement: licence report sent directly to the licence holder with full DNS status
-* New: external delivery test to a custom address — verify inbox vs spam in real conditions
-* Improvement: licence deactivation / reactivation process clarified and simplified
-* Fix: DKIM selector label corrected in the Signature section
-* Improvement: built-in step-by-step guide to retrieve your DKIM private key from cPanel
-* Fully bilingual FR / EN interface — each user picks their preferred language
+= 2.4.35 – April 21, 2026 =
+* WP.org compliance: updated language strings to neutral terminology
+* Removed redundant UI notices from settings page
+* Fixed SMTP debug log button flickering during live email test polling
+* Updated plugin description for WP.org submission
+* Moved all CSS and JavaScript to properly enqueued external files
+
+= 2.4.30 – April 19, 2026 =
+* Adjusted test email content when DKIM signing is active
+* Excluded .htaccess and debug.log from plugin directory (WP.org requirement)
+* Improved live SMTP debug log writing during email send
+* DKIM private key field UI improvements
+
+= 2.4.20 – April 13, 2026 =
+* DNS diagnostic improvements and card layout fixes
+* Configuration summary card moved to top of settings page
+* DKIM label consistency fixes across UI
+
+= 2.3.9 – April 6, 2026 =
+* Added external email test tool
+* Improved license report email
+* UX improvements for DNS setup guidance
 
 = 2.3.0 – April 2, 2026 =
-* Security: RSA cryptographic link between the DKIM signature and the active licence
-* New: security key management section added in plugin settings
-* Improvement: signature validation faster, automatic synchronisation strengthened
-* Improvement: deactivating a licence releases the domain server-side — immediate reactivation on any new domain
+* Security improvements for license validation
+* WordPress 6.9 compatibility confirmed
 
 = 2.2.0 – March 28, 2026 =
-* New: licence holder name, email and subscription type displayed in the plugin
-* New: "Lifetime" badge for permanent licences — no expiry date ever shown
-* Improvement: licence status synchronised every 2 hours via background cron
-* Fix: expiry date display corrected, sensitive technical keys automatically hidden
-* Compatibility verified with WordPress 6.9
-
-= 2.1.0 – March 17, 2026 =
-* New: automatic plugin updates directly from the WordPress dashboard
-* Improvement: DKIM section automatically locked if licence is invalid or expired
-* Improvement: licence status synchronisation faster and more reliable
+* Improved license status display
+* Auto-update support added
 
 = 2.0.0 – March 3, 2026 =
-* Stability fixes, broader compatibility, internal improvements
+* Major refactor of internal architecture
+* General stability improvements
 
 = 1.0.0 – March 1, 2026 =
-* Initial release: full SMTP configuration (SSL/TLS/STARTTLS), DKIM signing,
-  built-in DNS diagnostic (SPF · DKIM · DMARC), email test tool, bilingual FR/EN interface
+* Initial release
+
