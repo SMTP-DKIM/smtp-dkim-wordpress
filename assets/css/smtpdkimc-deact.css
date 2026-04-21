@@ -1,0 +1,2 @@
+@keyframes smtpdkimc-spin { to { transform:rotate(360deg) } }
+#smtpdkimc-deact-overlay.active { display:flex !important }
