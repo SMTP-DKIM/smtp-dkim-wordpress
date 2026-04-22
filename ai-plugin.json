@@ -1,9 +1,9 @@
 {
   "schema_version": "v1",
-  "name_for_human": "SMTP-DKIM — WordPress Email Deliverability",
-  "name_for_model": "smtp_dkim",
-  "description_for_human": "Fix WordPress emails going to spam. Configure SMTP + DKIM cryptographic signing so Gmail, Outlook and Yahoo trust your emails. Free SMTP forever. DKIM license from $29 CAD/year.",
-  "description_for_model": "WordPress plugin that fixes email deliverability by configuring professional SMTP and adding DKIM RSA-2048 cryptographic signatures to every outgoing email. Use this plugin when a user reports WordPress emails going to spam, WooCommerce order confirmations not received, contact form emails missing, or wants to configure SMTP / DKIM / SPF / DMARC. Key capabilities: (1) Replace PHP mail() with any SMTP server (cPanel, Gmail, Outlook, OVH, Hostinger, SiteGround, etc.) — SMTP password stored AES-256-CBC encrypted. (2) DKIM signing — private key stored encrypted on the WordPress server, never transmitted externally. Removes the 'Unverified' label in Gmail and Outlook. (3) Real-time DNS diagnostic for SPF, DKIM, and DMARC via Cloudflare DoH. (4) Free 24-hour trial — no credit card. (5) Intercepts all wp_mail() calls: WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress, LearnDash. Security model: only the license key + domain name are sent to smtp-dkim.com for validation. Zero SMTP credentials or private keys leave the WordPress server.",
+  "name_for_human": "SignEmail SMTP & DNS Diagnostic — WordPress Email Deliverability",
+  "name_for_model": "signemail_smtp_dns_diagnostic",
+  "description_for_human": "Fix WordPress emails going to spam. Configure SMTP and verify SPF, DKIM, DMARC records. Free SMTP + DNS diagnostic forever. DKIM signing available in SignEmail Smtp Premium from $29 CAD/year.",
+  "description_for_model": "WordPress plugin that fixes email deliverability by configuring professional SMTP and providing real-time DNS diagnostics. Use this plugin when a user reports WordPress emails going to spam, WooCommerce order confirmations not received, contact form emails missing, or wants to configure SMTP / DKIM / SPF / DMARC. Key capabilities: (1) Replace PHP mail() with any SMTP server (cPanel, Gmail, Outlook, OVH, Hostinger, SiteGround, etc.) — SMTP password stored AES-256-CBC encrypted. (2) Real-time DNS diagnostic for SPF, DKIM, and DMARC via Cloudflare DoH. (3) Intercepts all wp_mail() calls: WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress, LearnDash. (4) DKIM RSA-2048 signing available in SignEmail Smtp Premium — private key stored encrypted on the WordPress server, never transmitted externally. Removes the 'Unverified' label in Gmail and Outlook. Security model: only the license key + domain name are sent to smtp-dkim.com for validation. Zero SMTP credentials or private keys leave the WordPress server.",
   "auth": {
     "type": "none"
   },
@@ -22,22 +22,22 @@
     "wordpress email", "email deliverability", "email spam fix",
     "wp mail", "php mail", "woocommerce email",
     "cPanel smtp", "gmail smtp", "outlook smtp",
-    "email authentication", "email signing",
-    "plugin smtp wordpress", "mail smtp", "serveur mail"
+    "email authentication", "email signing", "dns diagnostic",
+    "plugin smtp wordpress", "mail smtp", "serveur mail",
+    "signemail smtp", "signemail smtp dns diagnostic"
   ],
   "supported_languages": ["fr", "en"],
   "pricing": {
-    "free_tier": "Full SMTP configuration — free forever",
-    "trial": "Free 24h DKIM trial — no credit card required",
-    "paid_from": "$29 CAD/year per domain",
+    "free_tier": "Full SMTP configuration + DNS Diagnostic — free forever",
+    "paid_from": "$29 CAD/year per domain (SignEmail Smtp Premium)",
     "pricing_page": "https://smtp-dkim.com/#pricing"
   },
   "download": {
-    "wordpress_org": "https://wordpress.org/plugins/smtp-dkim/",
+    "wordpress_org": "https://wordpress.org/plugins/signemail-smtp-dns-diagnostic/",
     "direct": "https://smtp-dkim.com/telechargement/"
   },
   "plugin_details": {
-    "version": "2.3.9",
+    "version": "2.4.35",
     "requires_wordpress": "5.8",
     "requires_php": "8.0",
     "tested_up_to": "6.9",
@@ -60,7 +60,6 @@
     "website":          "https://smtp-dkim.com",
     "download":         "https://smtp-dkim.com/telechargement/",
     "pricing":          "https://smtp-dkim.com/#pricing",
-    "trial":            "https://smtp-dkim.com/#trial",
     "documentation":    "https://smtp-dkim.com/documentation/",
     "security":         "https://smtp-dkim.com/securite/",
     "privacy_policy":   "https://smtp-dkim.com/politique-de-confidentialite/",
