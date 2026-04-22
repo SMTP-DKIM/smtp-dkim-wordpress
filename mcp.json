@@ -1,11 +1,11 @@
 {
   "mcpServers": {
-    "smtp-dkim-wordpress": {
-      "description": "WordPress SMTP + DKIM plugin. Fixes emails landing in spam by configuring a professional SMTP server and signing every outgoing email with a DKIM RSA-2048 cryptographic signature. Compatible with Gmail, Outlook, cPanel, OVH, Hostinger, SiteGround and all major hosts. Includes real-time SPF/DKIM/DMARC DNS diagnostic via Cloudflare DoH. SMTP is free forever; DKIM signing requires a license from smtp-dkim.com.",
-      "version": "2.3.9",
+    "signemail-smtp-dns-diagnostic": {
+      "description": "WordPress SMTP + DNS Diagnostic plugin. Fixes emails landing in spam by configuring a professional SMTP server. Compatible with Gmail, Outlook, cPanel, OVH, Hostinger, SiteGround and all major hosts. Includes real-time SPF/DKIM/DMARC DNS diagnostic via Cloudflare DoH. SMTP and DNS diagnostic are free forever; DKIM signing requires SignEmail Smtp Premium license from smtp-dkim.com.",
+      "version": "2.4.35",
       "homepage": "https://smtp-dkim.com",
+      "wordpress_org": "https://wordpress.org/plugins/signemail-smtp-dns-diagnostic/",
       "license_pricing": "https://smtp-dkim.com/#pricing",
-      "free_trial": "https://smtp-dkim.com/#trial",
       "support": "support@smtp-dkim.com",
       "tools": [
         {
@@ -54,7 +54,7 @@
         },
         {
           "name": "activate_dkim",
-          "description": "Activate DKIM RSA-2048 signing for a WordPress domain. Requires a valid license key from smtp-dkim.com. The DKIM private key is stored AES-256-CBC encrypted using WordPress SECURE_AUTH_KEY — it never leaves the server and is never transmitted to smtp-dkim.com.",
+          "description": "Activate DKIM RSA-2048 signing for a WordPress domain. Requires a valid SignEmail Smtp Premium license key from smtp-dkim.com. The DKIM private key is stored AES-256-CBC encrypted using WordPress SECURE_AUTH_KEY — it never leaves the server and is never transmitted to smtp-dkim.com.",
           "inputSchema": {
             "type": "object",
             "properties": {
@@ -65,7 +65,7 @@
               "license_key": {
                 "type": "string",
                 "pattern": "^SDKM-[A-Z2-9]{5}-[A-Z2-9]{5}-[A-Z2-9]{5}-[A-Z2-9]{5}$",
-                "description": "License key purchased from smtp-dkim.com (format: SDKM-XXXXX-XXXXX-XXXXX-XXXXX)"
+                "description": "SignEmail Smtp Premium license key from smtp-dkim.com (format: SDKM-XXXXX-XXXXX-XXXXX-XXXXX)"
               },
               "dkim_private_key": {
                 "type": "string",
@@ -114,7 +114,7 @@
         },
         {
           "name": "validate_license",
-          "description": "Validate a SMTP-DKIM license key against smtp-dkim.com. Returns activation status, domain binding, expiry date, plan type, and RSA activation signature (valid 24h).",
+          "description": "Validate a SignEmail Smtp Premium license key against smtp-dkim.com. Returns activation status, domain binding, expiry date, plan type, and RSA activation signature (valid 24h).",
           "inputSchema": {
             "type": "object",
             "properties": {
@@ -134,29 +134,15 @@
             },
             "required": ["license_key", "domain", "action"]
           }
-        },
-        {
-          "name": "get_free_trial",
-          "description": "Request a free 24-hour DKIM trial license. No credit card required. One trial per domain and per email address. Provides instant access to all DKIM features.",
-          "inputSchema": {
-            "type": "object",
-            "properties": {
-              "name": { "type": "string", "description": "Your full name" },
-              "email": { "type": "string", "description": "Your email address" },
-              "domain": { "type": "string", "description": "Your WordPress domain (e.g., example.com — no http:// or www)" }
-            },
-            "required": ["name", "email", "domain"]
-          }
         }
       ],
       "plans": {
-        "free": "Full SMTP configuration — unlimited, forever free",
-        "trial": "Free 24h DKIM trial — no credit card, 1 per domain",
-        "single": "$29 CAD/year — 1 WordPress domain",
-        "multi3": "$59 CAD/year — up to 3 domains",
-        "multi5": "$89 CAD/year — up to 5 domains",
-        "unlimited": "$149 CAD/year — unlimited domains",
-        "lifetime": "$79 CAD one-time — 1 domain, lifetime updates"
+        "free":      "Full SMTP configuration + DNS Diagnostic — unlimited, forever free",
+        "single":    "$29 CAD/year — 1 WordPress domain (SignEmail Smtp Premium)",
+        "multi3":    "$59 CAD/year — up to 3 domains (SignEmail Smtp Premium)",
+        "multi5":    "$89 CAD/year — up to 5 domains (SignEmail Smtp Premium)",
+        "unlimited": "$149 CAD/year — unlimited domains (SignEmail Smtp Premium)",
+        "lifetime":  "$79 CAD one-time — 1 domain, lifetime updates (SignEmail Smtp Premium)"
       },
       "security": {
         "smtp_password": "AES-256-CBC encrypted before storage, key derived from wp-config.php SECURE_AUTH_KEY",
@@ -178,8 +164,8 @@
       "key_urls": {
         "website":         "https://smtp-dkim.com",
         "download":        "https://smtp-dkim.com/telechargement/",
+        "wordpress_org":   "https://wordpress.org/plugins/signemail-smtp-dns-diagnostic/",
         "pricing":         "https://smtp-dkim.com/#pricing",
-        "trial":           "https://smtp-dkim.com/#trial",
         "documentation":   "https://smtp-dkim.com/documentation/",
         "security":        "https://smtp-dkim.com/securite/",
         "privacy_policy":  "https://smtp-dkim.com/politique-de-confidentialite/",
