@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "SMTP-DKIM Plugin API",
-    "description": "WordPress SMTP + DKIM email authentication plugin. Fixes emails going to spam by routing through a professional SMTP server and signing every outgoing email with DKIM RSA-2048 cryptography. SMTP is free forever. DKIM signing requires a license. Includes real-time DNS diagnostic (SPF, DKIM, DMARC) via Cloudflare DoH.\n\nCompatible with: cPanel, OVH, Hostinger, SiteGround, GoDaddy, Infomaniak, Gmail, Outlook, Namecheap, BlueHost, DreamHost, 1&1 IONOS, WP Engine, Kinsta, Cloudways.\nWorks with all wp_mail() callers: WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress, LearnDash.\n\nSecurity: SMTP password and DKIM private key are AES-256-CBC encrypted in the WordPress database. Nothing sensitive is transmitted to smtp-dkim.com.",
-    "version": "2.3.9",
+    "title": "SignEmail SMTP & DNS Diagnostic Plugin API",
+    "description": "WordPress SMTP + DNS Diagnostic plugin. Fixes emails going to spam by routing through a professional SMTP server and providing real-time SPF/DKIM/DMARC verification via Cloudflare DoH. SMTP and DNS diagnostic are free forever. DKIM signing requires a SignEmail Smtp Premium license.\n\nCompatible with: cPanel, OVH, Hostinger, SiteGround, GoDaddy, Infomaniak, Gmail, Outlook, Namecheap, BlueHost, DreamHost, 1&1 IONOS, WP Engine, Kinsta, Cloudways.\nWorks with all wp_mail() callers: WooCommerce, Contact Form 7, Gravity Forms, Elementor, BuddyPress, LearnDash.\n\nSecurity: SMTP password and DKIM private key are AES-256-CBC encrypted in the WordPress database. Nothing sensitive is transmitted to smtp-dkim.com.",
+    "version": "2.4.35",
     "contact": {
-      "name": "SMTP-DKIM Support",
+      "name": "SignEmail SMTP Support",
       "url": "https://smtp-dkim.com",
       "email": "support@smtp-dkim.com"
     },
@@ -22,7 +22,6 @@
   ],
   "tags": [
     { "name": "license", "description": "License activation, validation and deactivation" },
-    { "name": "trial", "description": "Free 24-hour DKIM trial" },
     { "name": "updates", "description": "WordPress plugin auto-update endpoint" },
     { "name": "security", "description": "RSA public key for license signature verification" }
   ],
@@ -30,8 +29,8 @@
     "/validate": {
       "post": {
         "tags": ["license"],
-        "summary": "Validate, activate or deactivate a DKIM license",
-        "description": "Main license validation endpoint. Called by the SMTP-DKIM WordPress plugin every 2 hours via WP-Cron. On activation, returns an RSA-2048 signature (valid 24h) that cryptographically enables DKIM signing. Only the license key and domain name are transmitted — no passwords or private keys.",
+        "summary": "Validate, activate or deactivate a SignEmail Smtp Premium license",
+        "description": "Main license validation endpoint. Called by the SignEmail SMTP plugin every 2 hours via WP-Cron. On activation, returns an RSA-2048 signature (valid 24h) that cryptographically enables DKIM signing. Only the license key and domain name are transmitted — no passwords or private keys.",
         "operationId": "validateLicense",
         "security": [{ "HMACAuth": [] }],
         "requestBody": {
@@ -45,7 +44,7 @@
                   "license_key": {
                     "type": "string",
                     "pattern": "^SDKM-[A-Z2-9]{5}-[A-Z2-9]{5}-[A-Z2-9]{5}-[A-Z2-9]{5}$",
-                    "description": "License key — format SDKM-XXXXX-XXXXX-XXXXX-XXXXX",
+                    "description": "SignEmail Smtp Premium license key — format SDKM-XXXXX-XXXXX-XXXXX-XXXXX",
                     "example": "SDKM-AB3DE-FGH2J-KLMNP-QRSTU"
                   },
                   "domain": {
@@ -60,12 +59,12 @@
                   },
                   "plugin": {
                     "type": "string",
-                    "default": "smtp-dkim"
+                    "default": "signemail-smtp-dns-diagnostic"
                   },
                   "version": {
                     "type": "string",
-                    "description": "Plugin version for telemetry",
-                    "example": "2.3.9"
+                    "description": "Plugin version",
+                    "example": "2.4.35"
                   },
                   "timestamp": {
                     "type": "integer",
@@ -100,7 +99,7 @@
                     },
                     "plan_type": {
                       "type": "string",
-                      "enum": ["single", "multi3", "multi5", "unlimited", "lifetime", "trial"]
+                      "enum": ["single", "multi3", "multi5", "unlimited", "lifetime"]
                     },
                     "customer_email": { "type": "string" },
                     "customer_name": { "type": "string" },
@@ -121,101 +120,18 @@
         }
       }
     },
-    "/trial-question": {
-      "get": {
-        "tags": ["trial"],
-        "summary": "Get a math security challenge for the free trial form",
-        "description": "Returns a simple math question (addition or multiplication) and a server-side token. The token is valid 10 minutes and must be submitted with the trial request to prove it was a human interaction.",
-        "operationId": "getTrialQuestion",
-        "responses": {
-          "200": {
-            "description": "Math challenge",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": { "type": "string", "description": "Server-side token (valid 10 minutes)" },
-                    "question": { "type": "string", "example": "4 × 7 =" }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/trial": {
-      "post": {
-        "tags": ["trial"],
-        "summary": "Request a free 24-hour DKIM trial license",
-        "description": "Creates a free 24-hour DKIM trial license. No credit card required. Anti-bot protection via honeypot + math captcha. Rate limited to 5 attempts/hour/IP. One trial per domain and per email address — enforced server-side.",
-        "operationId": "createTrial",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["name", "email", "domain", "math_token", "math_answer"],
-                "properties": {
-                  "name": { "type": "string", "description": "User full name" },
-                  "email": { "type": "string", "format": "email" },
-                  "domain": {
-                    "type": "string",
-                    "description": "WordPress domain — no http:// or www (e.g., example.com)"
-                  },
-                  "math_token": { "type": "string", "description": "Token from /trial-question" },
-                  "math_answer": { "type": "integer", "description": "Answer to the math challenge" },
-                  "sdkm_hp": {
-                    "type": "string",
-                    "description": "Honeypot field — must be empty"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Trial result (always HTTP 200 — check `success` field)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": { "type": "boolean" },
-                    "license_key": {
-                      "type": "string",
-                      "description": "Trial license key (only when success=true)"
-                    },
-                    "expires_at": {
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "Expiry — 24 hours from creation"
-                    },
-                    "domain": { "type": "string" },
-                    "message": { "type": "string" }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/plugin-info": {
       "get": {
         "tags": ["updates"],
         "summary": "Get plugin metadata for WordPress auto-updater",
-        "description": "Returns plugin version, download URL, changelog, banners and icons for the WordPress 'Update Plugins' transient. Used by the built-in update checker in smtp-dkim.php.",
+        "description": "Returns plugin version, download URL, changelog, banners and icons for the WordPress 'Update Plugins' transient. Used by the built-in update checker in the plugin.",
         "operationId": "getPluginInfo",
         "parameters": [
           {
             "name": "slug",
             "in": "query",
             "required": true,
-            "schema": { "type": "string", "enum": ["smtp-dkim"] }
+            "schema": { "type": "string", "enum": ["signemail-smtp-dns-diagnostic", "SignEmail-Smtp-Premium"] }
           }
         ],
         "responses": {
@@ -226,9 +142,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "name": { "type": "string", "example": "SMTP DKIM" },
-                    "slug": { "type": "string", "example": "smtp-dkim" },
-                    "version": { "type": "string", "example": "2.3.9" },
+                    "name": { "type": "string", "example": "SignEmail SMTP & DNS Diagnostic" },
+                    "slug": { "type": "string", "example": "signemail-smtp-dns-diagnostic" },
+                    "version": { "type": "string", "example": "2.4.35" },
                     "download_link": { "type": "string", "format": "uri" },
                     "requires": { "type": "string", "example": "5.8" },
                     "tested": { "type": "string", "example": "6.9" },
