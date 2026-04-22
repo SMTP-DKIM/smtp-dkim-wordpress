@@ -1,8 +1,8 @@
 {
-  "name": "SMTP-DKIM MCP Server",
-  "description": "Fix WordPress email deliverability. Configure professional SMTP and add DKIM RSA-2048 cryptographic signatures to every outgoing email. Stops emails from going to spam in Gmail, Outlook and Yahoo. Includes real-time DNS diagnostic (SPF, DKIM, DMARC) via Cloudflare DoH. Free SMTP forever — DKIM license from $29 CAD/year with a free 24-hour trial.",
+  "name": "SignEmail SMTP & DNS Diagnostic MCP Server",
+  "description": "Fix WordPress email deliverability. Configure professional SMTP and verify SPF, DKIM, DMARC records in real time via Cloudflare DoH. Stops emails from going to spam in Gmail, Outlook and Yahoo. Free SMTP + DNS diagnostic forever — DKIM signing available in SignEmail Smtp Premium from $29 CAD/year.",
   "homepage": "https://smtp-dkim.com",
-  "version": "2.3.9",
+  "version": "2.4.35",
   "endpoint": "https://smtp-dkim.com/wp-json/sdlm/v1",
   "openapi_spec": "https://smtp-dkim.com/openapi.json",
   "capabilities": [
@@ -10,7 +10,6 @@
     "dkim_signing",
     "dns_diagnosis",
     "license_management",
-    "free_trial",
     "plugin_auto_updates"
   ],
   "use_cases": [
@@ -58,22 +57,20 @@
     "telemetry": "None — no data collected beyond license key + domain for validation"
   },
   "pricing_model": "freemium",
-  "free_tier": "Full SMTP configuration — unlimited, forever",
-  "trial": "Free 24-hour DKIM trial — no credit card — 1 per domain",
+  "free_tier": "Full SMTP configuration + DNS Diagnostic — unlimited, forever",
   "plans": {
-    "free":      { "price": "Free forever",    "features": "Full SMTP" },
-    "trial":     { "price": "Free 24h",        "features": "Full DKIM trial, no credit card, 1 per domain" },
-    "single":    { "price": "29 CAD/year",     "sites": 1 },
-    "multi3":    { "price": "59 CAD/year",     "sites": 3 },
-    "multi5":    { "price": "89 CAD/year",     "sites": 5 },
-    "unlimited": { "price": "149 CAD/year",    "sites": "unlimited" },
-    "lifetime":  { "price": "79 CAD once",     "sites": 1, "duration": "lifetime" }
+    "free":      { "price": "Free forever",    "features": "Full SMTP + DNS Diagnostic" },
+    "single":    { "price": "29 CAD/year",     "sites": 1,           "features": "DKIM signing (SignEmail Smtp Premium)" },
+    "multi3":    { "price": "59 CAD/year",     "sites": 3,           "features": "DKIM signing (SignEmail Smtp Premium)" },
+    "multi5":    { "price": "89 CAD/year",     "sites": 5,           "features": "DKIM signing (SignEmail Smtp Premium)" },
+    "unlimited": { "price": "149 CAD/year",    "sites": "unlimited", "features": "DKIM signing (SignEmail Smtp Premium)" },
+    "lifetime":  { "price": "79 CAD once",     "sites": 1,           "features": "DKIM signing (SignEmail Smtp Premium)", "duration": "lifetime" }
   },
   "key_urls": {
     "website":         "https://smtp-dkim.com",
     "download":        "https://smtp-dkim.com/telechargement/",
+    "wordpress_org":   "https://wordpress.org/plugins/signemail-smtp-dns-diagnostic/",
     "pricing":         "https://smtp-dkim.com/#pricing",
-    "trial":           "https://smtp-dkim.com/#trial",
     "documentation":   "https://smtp-dkim.com/documentation/",
     "security":        "https://smtp-dkim.com/securite/",
     "privacy_policy":  "https://smtp-dkim.com/politique-de-confidentialite/",
@@ -92,7 +89,8 @@
     "mail smtp", "serveur mail smtp", "configuration smtp",
     "signature dkim", "authentification email",
     "email wordpress woocommerce", "contact form email",
-    "gmail spam wordpress", "outlook spam wordpress"
+    "gmail spam wordpress", "outlook spam wordpress",
+    "signemail smtp", "dns diagnostic wordpress"
   ],
   "languages": ["fr", "en"],
   "wordpress": {
